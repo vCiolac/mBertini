@@ -13,6 +13,7 @@ import { CustomEase, gsap, useGSAP } from '@/lib/gsap'
 import { splitToSpan } from '@/utils/gsap'
 
 import { Portal } from './Portal'
+import { AdditionalContent } from './AddContent'
 
 interface ContentProps {
   contentRef: RefObject<HTMLDivElement>
@@ -193,6 +194,7 @@ export const Content: React.FC<ContentProps> = ({ contentRef }) => {
             </div>
           </div>
         </div>
+        <AdditionalContent />
       </section>
     </>
   )
