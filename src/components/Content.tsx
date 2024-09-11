@@ -1,18 +1,11 @@
-import { CaretLeft, CaretRight } from '@phosphor-icons/react'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import Image from 'next/image'
-import { RefObject, Suspense, useEffect, useRef, useState } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
 
-import dummy1 from '/public/1.jpg'
-import dummy2 from '/public/2.png'
-import dummy3 from '/public/3.jpg'
-import dummy4 from '/public/4.jpg'
 import { useBreakpoints } from '@/hooks'
 import { CustomEase, gsap, useGSAP } from '@/lib/gsap'
 import { splitToSpan } from '@/utils/gsap'
 
-import { Portal } from './Portal'
 import { AdditionalContent } from './AddContent'
 
 interface ContentProps {
@@ -20,17 +13,35 @@ interface ContentProps {
   stickyRef: RefObject<HTMLDivElement>
 }
 
+interface Topic {
+  title: string
+  content: string
+}
+
+const topics: Topic[] = [
+  { title: 'Topic 1', content: 'Detailed information about Topic 1.' },
+  { title: 'Topic 2', content: 'Detailed information about Topic 2.' },
+  { title: 'Topic 3', content: 'Detailed information about Topic 3.' },
+  { title: 'Topic 4', content: 'Detailed information about Topic 4.' },
+  { title: 'Topic 5', content: 'Detailed information about Topic 5.' },
+  { title: 'Topic 6', content: 'Detailed information about Topic 6.' },
+]
+
 const OPTIONS: EmblaOptionsType = { dragFree: true, duration: 30 }
 
 export const Content: React.FC<ContentProps> = ({ contentRef }) => {
   const { isLargeScreen } = useBreakpoints()
   const [emblaRef] = useEmblaCarousel(OPTIONS)
-  const [isClient, setIsClient] = useState(false)
+  const [expanded, setExpanded] = useState<number | null>(null)
 
   const eventsRef = useRef<HTMLDivElement>(null)
   const dragCursorRef = useRef<HTMLDivElement>(null)
 
   const { contextSafe } = useGSAP()
+
+  const handleExpand = (index: number) => {
+    setExpanded(expanded === index ? null : index)
+  }
 
   const handleDragMouseCursor = (event: MouseEvent) => {
     const posX = event.pageX
@@ -116,7 +127,6 @@ export const Content: React.FC<ContentProps> = ({ contentRef }) => {
     { dependencies: [eventsRef, isLargeScreen], scope: eventsRef },
   )
   useEffect(() => {
-    setIsClient(true)
     window.addEventListener('mousemove', handleDragMouseCursor)
 
     return () => window.removeEventListener('mousemove', handleDragMouseCursor)
@@ -139,21 +149,6 @@ export const Content: React.FC<ContentProps> = ({ contentRef }) => {
             Clique nas caixinhas abaixo para ver mais informações.
           </p>
         </header>
-        {isClient && (
-          <Portal>
-            <div
-              ref={dragCursorRef}
-              className="pointer-events-none absolute left-0 top-0 z-50 flex w-max scale-0 items-center gap-1 rounded-full bg-white px-8 py-6 text-black opacity-0 transition-[opacity]"
-            >
-              <Suspense>
-                <CaretLeft weight="fill" size={16} />
-              </Suspense>
-              <div className="text-sm uppercase">DRAG</div>
-              <CaretRight weight="fill" size={16} />
-            </div>
-          </Portal>
-        )}
-
         <div
           ref={emblaRef}
           className="relative h-[48rem] w-full cursor-grab overflow-x-hidden"
@@ -164,33 +159,23 @@ export const Content: React.FC<ContentProps> = ({ contentRef }) => {
             ref={eventsRef}
             className="events my-0 inline-block h-full whitespace-nowrap"
           >
-            <div className="event-image inline-block h-full w-[90%] overflow-hidden  lg:w-[30%]">
-              <Image
-                src={dummy1}
-                alt=""
-                className="h-full scale-125 object-cover transition-all duration-700 hover:scale-100"
-              />
-            </div>
-            <div className="event-image inline-block h-full w-[90%] overflow-hidden lg:w-[30%]">
-              <Image
-                src={dummy2}
-                alt=""
-                className="h-full scale-125 object-cover transition-all duration-700 hover:scale-100"
-              />
-            </div>
-            <div className="event-image inline-block h-full w-[90%] overflow-hidden lg:w-[30%]">
-              <Image
-                src={dummy3}
-                alt=""
-                className="h-full scale-125 object-cover transition-all duration-700 hover:scale-100"
-              />
-            </div>
-            <div className="event-image inline-block h-full w-[90%] overflow-hidden lg:w-[30%]">
-              <Image
-                src={dummy4}
-                alt=""
-                className="h-full scale-125 object-cover transition-all duration-700 hover:scale-100"
-              />
+            <div
+              className="event-box mb-4 w-full max-w-[600px] cursor-pointer rounded-lg bg-white text-black shadow-md"
+            >
+              <div className="flex justify-center items-center space-x-4">
+                {topics.map((topic, index) => (
+                  <div key={index} onClick={() => handleExpand(index)}>
+                    <div className="border-b border-gray-300 p-4 font-bold text-center">
+                      {topic.title}
+                    </div>
+                    {expanded === index && (
+                      <div className="p-4">
+                        <p>{topic.content}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
