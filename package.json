@@ -1,0 +1,39 @@
+{
+  "name": "flow-scroll",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.0",
+    "@phosphor-icons/react": "^2.1.3",
+    "@studio-freight/react-lenis": "^0.0.47",
+    "embla-carousel": "^8.0.2",
+    "embla-carousel-react": "^8.0.2",
+    "framer-motion": "^11.5.4",
+    "gsap": "^3.12.5",
+    "next": "14.1.4",
+    "polished": "^4.3.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "eslint-plugin-simple-import-sort": "^12.0.0",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.13",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}
