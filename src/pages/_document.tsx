@@ -4,7 +4,10 @@ function Document() {
   return (
     <Html lang="en">
       <Head>
-        <meta name="description" content="Maria Luiza Bertini" />
+        <meta
+          name="description"
+          content="Maria Luiza Bertini"
+        />
       </Head>
       <body>
         <Main />

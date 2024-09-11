@@ -15,6 +15,8 @@ function Home() {
   const [positions, setPositions] = useState<number[]>([])
   const [stickySectionTitleAnimation, setStickySectionTitleAnimation] =
     useState<gsap.core.Tween | null>(null)
+  const [emojiEnterAnimation, setEmojiEnterAnimation] =
+    useState<gsap.core.Tween | null>(null)
 
   const stickyRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
@@ -117,7 +119,29 @@ function Home() {
       setStickySectionTitleAnimation(animation)
     }
   })
+  const createEmojiEnterAnimation = contextSafe(() => {
+    if (emojiEnterAnimation) {
+      emojiEnterAnimation.kill()
+    }
 
+    const animation = gsap.fromTo(
+      '.emoji',
+      { scale: 0 },
+      {
+        scale: 1,
+        duration: 1,
+        ease: 'back',
+        delay: 1.7,
+        onComplete: () => {
+          setEmojiEnterAnimation(null)
+        },
+      },
+    )
+
+    if (!emojiEnterAnimation) {
+      setEmojiEnterAnimation(animation)
+    }
+  })
   const resetSectionsAnimations = contextSafe(() => {
     gsap.set([contentRef.current, stickyRef.current], { clearProps: true })
   })
@@ -155,6 +179,8 @@ function Home() {
         } else {
           stickySectionTitleAnimation.restart(true)
         }
+
+        createEmojiEnterAnimation()
       }
     },
     {

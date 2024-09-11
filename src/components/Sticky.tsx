@@ -36,7 +36,7 @@ export const Sticky: React.FC<StickyProps> = ({ stickyRef }) => {
       ref={stickyRef}
       className="fixed left-0 top-0 h-screen w-screen bg-primary"
     >
-      <div className="container mx-auto flex h-full w-full flex-col items-center justify-center md:flex-row">
+      <div className="container mx-auto flex h-full w-full md:w-[90%] flex-col items-center justify-center md:flex-row">
         {/* Texto no canto esquerdo */}
         <div className="flex-1 text-white">
           {splitToSpan(
@@ -45,6 +45,7 @@ export const Sticky: React.FC<StickyProps> = ({ stickyRef }) => {
             </h2>,
             'flow-char translate-y-[115%]',
           )}
+          <div className='h-1' />
           {splitToSpan(
             <span className="pointer-events-none overflow-hidden whitespace-nowrap pt-16 font-humane text-[4rem] font-bold uppercase leading-[.7] text-white xs:block md:text-[34vw] lg:text-[5rem] 2xl:text-[6rem]">
               Outro texto
